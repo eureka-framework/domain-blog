@@ -1,7 +1,7 @@
 parameters:
     # Common config database
     app.database.common:
-        dsn:      'mysql:dbname=%eka.dm.blog.secret.database.name%;host=%eka.dm.blog.secret.database.host%;charset=UTF8'
+        dsn:      'mysql:dbname=%eka.dm.blog.secret.database.schema%;host=%eka.dm.blog.secret.database.host%;charset=UTF8'
         username: '%eka.dm.blog.secret.database.username%'
         password: '%eka.dm.blog.secret.database.password%'
         options:
