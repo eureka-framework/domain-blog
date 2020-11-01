@@ -1,0 +1,45 @@
+{
+  "name": "eureka/domain-blog",
+  "description": "Provide common classes & services to create blog in your application.",
+  "type": "library",
+  "minimum-stability": "stable",
+  "license": "MIT",
+
+  "authors": [
+    {
+      "name": "Romain Cottard",
+      "role": "Developer"
+    }
+  ],
+
+  "autoload": {
+    "psr-4": {
+      "Eureka\\Domain\\Blog\\": "./src",
+      "Eureka\\Domain\\Blog\\Script\\": "./scripts"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Eureka\\Domain\\Blog\\Tests\\": "./tests"
+    }
+  },
+
+  "require": {
+    "php": ">=7.4.0",
+
+    "eureka/component-database": "^3.0",
+    "eureka/component-orm": "^5.0",
+    "eureka/component-validation": "^5.0"
+  },
+
+  "require-dev": {
+    "eureka/kernel-console": "^5.0",
+    "eureka/component-console": "^5.0",
+
+    "dealerdirect/phpcodesniffer-composer-installer": "^v0.7",
+    "phpcompatibility/php-compatibility": "^9.3",
+    "phpunit/phpcov": "^8.2.0",
+    "phpunit/phpunit": "^9.4.0",
+    "squizlabs/php_codesniffer": "^3.5"
+  }
+}

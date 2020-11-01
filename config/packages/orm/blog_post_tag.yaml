@@ -1,0 +1,52 @@
+# ORM Config file
+parameters:
+
+    orm.config.blog_post_tag:
+        comment:
+            author:     '%orm.comment.author%'
+            copyright:  '%orm.comment.copyright%'
+
+        namespace:
+            entity:     '%orm.base_namespace.entity%\Entity'
+            mapper:     '%orm.base_namespace.mapper%\Infrastructure\Mapper'
+            repository: '%orm.base_namespace.repository%\Repository'
+
+        path:
+            entity:     '%orm.base_path.entity%/Entity'
+            mapper:     '%orm.base_path.mapper%/Infrastructure/Mapper'
+            repository: '%orm.base_path.repository%/Repository'
+
+        cache:
+            prefix:     '%orm.cache.prefix%blog_post_tag'
+
+        database:
+            table:      'blog_post_tag'
+            prefix:     'blog_post_tag'
+
+        class:
+            classname: 'PostTag'
+
+        joins:
+            Post:
+                eager_loading: true
+                config:   'blog_post'
+                relation: 'one'
+                type:     'inner'
+                keys:
+                    blog_post_id: true
+
+            Tag:
+                eager_loading: true
+                config:   'blog_tag'
+                relation: 'one'
+                type:     'inner'
+                keys:
+                    blog_tag_id: true
+
+
+        #~ Validation input in entities
+        validation:
+            enabled:             '%orm.validation.enabled%'
+            auto:                '%orm.validation.auto%'
+            extended_validation: ~
+

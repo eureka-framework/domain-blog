@@ -1,0 +1,37 @@
+# ORM Config file
+parameters:
+
+    orm.config.blog_author:
+        comment:
+            author:     '%orm.comment.author%'
+            copyright:  '%orm.comment.copyright%'
+
+        namespace:
+            entity:     '%orm.base_namespace.entity%\Entity'
+            mapper:     '%orm.base_namespace.mapper%\Infrastructure\Mapper'
+            repository: '%orm.base_namespace.repository%\Repository'
+
+        path:
+            entity:     '%orm.base_path.entity%/Entity'
+            mapper:     '%orm.base_path.mapper%/Infrastructure/Mapper'
+            repository: '%orm.base_path.repository%/Repository'
+
+        cache:
+            prefix:     '%orm.cache.prefix%blog_author'
+
+        database:
+            table:      'blog_author'
+            prefix:     'blog_author'
+
+        class:
+            classname:  'Author'
+
+        joins: []
+
+
+        #~ Validation input in entities
+        validation:
+            enabled:             '%orm.validation.enabled%'
+            auto:                '%orm.validation.auto%'
+            extended_validation: ~
+
