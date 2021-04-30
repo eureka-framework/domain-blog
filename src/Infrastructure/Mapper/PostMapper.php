@@ -28,20 +28,31 @@ class PostMapper extends Abstracts\AbstractPostMapper implements PostRepositoryI
     /**
      * @param int $number
      * @param int $status
+     * @param \DateTimeImmutable|null $date
      * @return Post[]
      * @throws InvalidQueryException
      * @throws OrmException
      */
-    public function findLatest(int $number = 10, int $status = PostStatus::PUBLISHED): iterable
-    {
+    public function findLatest(
+        int $number = 10,
+        int $status = PostStatus::PUBLISHED,
+        \DateTimeImmutable $date = null
+    ): iterable {
         if ($number < 1) {
             throw new \OutOfRangeException('Number of latest post must be greater than 0!', 10001);
         }
         $queryBuilder = new SelectBuilder($this);
 
-        $queryBuilder->addOrder('blog_post_id', 'DESC');
-        $queryBuilder->setLimit($number);
-        $queryBuilder->addWhere('blog_post_status', $status);
+        if ($date === null) {
+            $date = new \DateTimeImmutable();
+        }
+
+        $queryBuilder
+            ->addWhere('blog_post_status', $status)
+            ->addWhere('blog_post_date_publication', $date->format('Y-m-d H:i:s'), '<=')
+            ->addOrder('blog_post_date_publication', 'DESC')
+            ->setLimit($number)
+        ;
 
         return $this->select($queryBuilder);
     }

@@ -27,9 +27,14 @@ interface PostRepositoryInterface extends RepositoryInterface
     /**
      * @param int $number
      * @param int $status
+     * @param \DateTimeImmutable|null $date
      * @return Post[]
      * @throws InvalidQueryException
      * @throws OrmException
      */
-    public function findLatest(int $number = 10, int $status = PostStatus::PUBLISHED): iterable;
+    public function findLatest(
+        int $number = 10,
+        int $status = PostStatus::PUBLISHED,
+        \DateTimeImmutable $date = null
+    ): iterable;
 }
