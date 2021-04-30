@@ -13,6 +13,7 @@ namespace Eureka\Domain\Blog\Tests;
 
 use Eureka\Component\Orm\Exception\OrmException;
 use Eureka\Component\Orm\RepositoryInterface;
+use Eureka\Component\Validation\ValidatorFactory;
 use Eureka\Domain\Blog\Entity\Author;
 use Eureka\Domain\Blog\Entity\Category;
 use Eureka\Domain\Blog\Entity\Post;
@@ -63,6 +64,20 @@ class EntityTest extends TestCase
         $entity = new Post($this->getMapperMock(PostRepositoryInterface::class));
 
         $this->assertInstanceOf(Post::class, $entity);
+    }
+
+    /**
+     * @return void
+     */
+    public function testICanGetASlugAPostTitle(): void
+    {
+        $entity = new Post(
+            $this->getMapperMock(PostRepositoryInterface::class),
+            new ValidatorFactory()
+        );
+        $entity->setTitle('Bientôt disponible');
+
+        $this->assertSame('bientot-disponible', $entity->getSlug());
     }
 
     /**
