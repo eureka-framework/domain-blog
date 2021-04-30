@@ -1,4 +1,4 @@
-.PHONY: install update phpcs phpcbf tests
+.PHONY: install update phpcs phpcbf php80compatibility tests testdox ci
 
 PHP_FILES := $(shell find src tests -type f -name '*.php')
 
@@ -17,22 +17,27 @@ build/reports/cs/eureka.xml: composer.lock $(PHP_FILES)
 	mkdir -p build/reports/cs
 	./vendor/bin/phpcs --standard=./ci/phpcs/eureka.xml --cache=./build/cs_eureka.cache -p --report-full --report-checkstyle=./build/reports/cs/eureka.xml src/ tests/
 
-build/reports/php80/compatibility_check.xml: composer.lock $(PHP_FILES)
-	mkdir -p build/reports/php80
-	./vendor/bin/phpcs --standard=./ci/phpcs/PHP80Compatibility.xml --cache=./build/php80.cache -p --report-full --report-checkstyle=./build/reports/php80/compatibility_check.xml src/ tests/
+build/reports/cs/php80compatibility.xml: composer.lock $(PHP_FILES) ci/phpcs/php8.0_compatibility.xml
+	mkdir -p build/reports/cs
+	./vendor/bin/phpcs --standard=./ci/phpcs/php8.0_compatibility.xml --cache=./build/cs_php80compatibility.cache -p --report-full --report-checkstyle=./build/reports/cs/php80compatibility.xml src/ tests/
 
 phpcs: build/reports/cs/eureka.xml
-
-php80compatibility: build/reports/php80/compatibility_check.xml
 
 phpcbf: composer.lock
 	./vendor/bin/phpcbf --standard=./ci/phpcs/eureka.xml src/ tests/
 
-build/reports/phpunit/unit.xml build/reports/phpunit/unit.cov: vendor/bin/phpunit $(PHP_FILES)
-	mkdir -p build/reports/phpunit
-	php -dzend_extension=xdebug.so ./vendor/bin/phpunit -c ./phpunit.xml.dist --coverage-clover=./build/reports/phpunit/clover.xml --log-junit=./build/reports/phpunit/unit.xml --coverage-php=./build/reports/phpunit/unit.cov --coverage-html=./build/reports/coverage/ --fail-on-warning
-
-tests: build/reports/phpunit/unit.xml build/reports/phpunit/unit.cov
+php80compatibility: build/reports/cs/php80compatibility.xml
 
 testdox: vendor/bin/phpunit $(PHP_FILES)
 	php -dzend_extension=xdebug.so ./vendor/bin/phpunit -c ./phpunit.xml.dist --fail-on-warning --testdox
+
+build/reports/phpunit/unit.xml build/reports/phpunit/unit.cov: vendor/bin/phpunit $(PHP_FILES)
+	mkdir -p build/reports/phpunit
+	XDEBUG_MODE=coverage php -dzend_extension=xdebug.so ./vendor/bin/phpunit -c ./phpunit.xml.dist --coverage-clover=./build/reports/phpunit/clover.xml --log-junit=./build/reports/phpunit/unit.xml --coverage-php=./build/reports/phpunit/unit.cov --coverage-html=./build/reports/coverage/ --fail-on-warning
+
+tests: build/reports/phpunit/unit.xml build/reports/phpunit/unit.cov
+
+cleanup:
+	if [ "$(ls -A ./build)"  ]; then rm -r ./build/*; fi
+
+ci: cleanup install phpcs tests php80compatibility
