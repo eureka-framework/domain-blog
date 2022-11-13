@@ -41,6 +41,7 @@ class PostMapper extends Abstracts\AbstractPostMapper implements PostRepositoryI
         if ($number < 1) {
             throw new \OutOfRangeException('Number of latest post must be greater than 0!', 10001);
         }
+
         $queryBuilder = new SelectBuilder($this);
 
         if ($date === null) {

@@ -23,7 +23,6 @@ interface CategoryRepositoryInterface extends RepositoryInterface
 {
     /**
      * @return Category[]
-     * @throws
      */
     public function findAll(): iterable;
 }

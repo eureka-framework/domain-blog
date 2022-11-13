@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Eureka\Domain\Blog\Entity;
 
 use Eureka\Component\Orm\EntityInterface;
+use Eureka\Component\Orm\Exception\OrmException;
 
 /**
  * DataMapper Data class for table "blog_tag"
@@ -22,7 +23,7 @@ class Tag extends Abstracts\AbstractTag implements EntityInterface
 {
     /**
      * @return int
-     * @throws
+     * @throws OrmException
      */
     public function countArticles(): int
     {

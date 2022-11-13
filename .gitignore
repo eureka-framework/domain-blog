@@ -3,10 +3,17 @@ composer.phar
 composer.lock
 /vendor/
 
-#~ CI
-/build/
+#~ Tests
+/build/*
 .phpunit.result.cache
+
+#~ Misc
+.idea
 
 #~ Symfony
 /var/
 /config/packages/secrets.yaml
+
+#~ Overridden condigs
+phpstan.neon
+phpunit.xml
